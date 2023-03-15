@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Check if Bitcoin Address Has Sent Bitcoin</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .input {
+        margin: 10px;
+      }
+      .output {
+        margin: 10px;
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+      }
+      .yes {
+        background-color: lightgreen;
+        color: black;
+      }
+      .no {
+        background-color: lightcoral;
+        color: black;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="input">
+      <label for="address">Enter Bitcoin Address:</label>
+      <input type="text" id="address" name="address">
+      <button onclick="checkAddress()">Check</button>
+    </div>
+    <div class="output" id="output"></div>
+    <script>
+      function checkAddress() {
+        const address = document.getElementById('address').value;
+        const url = `https://blockchain.info/rawaddr/${address}`;
+        fetch(url)
+          .then(response => response.json())
+          .then(data => {
+            if (data.n_tx > 0) {
+              document.getElementById('output').innerHTML = 'Yes';
+              document.getElementById('output').className = 'output yes';
+            } else {
+              document.getElementById('output').innerHTML = 'No';
+              document.getElementById('output').className = 'output no';
+            }
+          })
+          .catch(error => console.error(error));
+      }
+    </script>
+  </body>
+</html>
